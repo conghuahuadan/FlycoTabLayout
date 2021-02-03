@@ -31,62 +31,63 @@ import com.flyco.tablayout.widget.MsgView;
 import java.util.ArrayList;
 
 public class SegmentTabLayout extends FrameLayout implements ValueAnimator.AnimatorUpdateListener {
-    private Context mContext;
-    private String[] mTitles;
-    private LinearLayout mTabsContainer;
-    private int mCurrentTab;
-    private int mLastTab;
-    private int mTabCount;
+    protected Context mContext;
+    protected String[] mTitles;
+    protected LinearLayout mTabsContainer;
+    protected int mCurrentTab;
+    protected int mLastTab;
+    protected int mTabCount;
     /** 用于绘制显示器 */
-    private Rect mIndicatorRect = new Rect();
-    private GradientDrawable mIndicatorDrawable = new GradientDrawable();
-    private GradientDrawable mRectDrawable = new GradientDrawable();
+    protected Rect mIndicatorRect = new Rect();
+    protected GradientDrawable mIndicatorDrawable = new GradientDrawable();
+    protected GradientDrawable mRectDrawable = new GradientDrawable();
 
-    private Paint mDividerPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
+    protected Paint mDividerPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
 
-    private float mTabPadding;
-    private boolean mTabSpaceEqual;
-    private float mTabWidth;
+    protected float mTabPadding;
+    protected boolean mTabSpaceEqual;
+    protected float mTabWidth;
 
     /** indicator */
-    private int mIndicatorColor;
-    private float mIndicatorHeight;
-    private float mIndicatorCornerRadius;
-    private float mIndicatorMarginLeft;
-    private float mIndicatorMarginTop;
-    private float mIndicatorMarginRight;
-    private float mIndicatorMarginBottom;
-    private long mIndicatorAnimDuration;
-    private boolean mIndicatorAnimEnable;
-    private boolean mIndicatorBounceEnable;
+    protected int mIndicatorColor;
+    protected float mIndicatorHeight;
+    protected float mIndicatorCornerRadius;
+    protected float mIndicatorMarginLeft;
+    protected float mIndicatorMarginTop;
+    protected float mIndicatorMarginRight;
+    protected float mIndicatorMarginBottom;
+    protected long mIndicatorAnimDuration;
+    protected boolean mIndicatorAnimEnable;
+    protected boolean mIndicatorBounceEnable;
 
     /** divider */
-    private int mDividerColor;
-    private float mDividerWidth;
-    private float mDividerPadding;
+    protected int mDividerColor;
+    protected float mDividerWidth;
+    protected float mDividerPadding;
 
     /** title */
-    private static final int TEXT_BOLD_NONE = 0;
-    private static final int TEXT_BOLD_WHEN_SELECT = 1;
-    private static final int TEXT_BOLD_BOTH = 2;
-    private float mTextsize;
-    private int mTextSelectColor;
-    private int mTextUnselectColor;
-    private int mTextBold;
-    private boolean mTextAllCaps;
+    protected static final int TEXT_BOLD_NONE = 0;
+    protected static final int TEXT_BOLD_WHEN_SELECT = 1;
+    protected static final int TEXT_BOLD_BOTH = 2;
+    protected float mTextsize;
+    protected float mTextSelectSize;
+    protected int mTextSelectColor;
+    protected int mTextUnselectColor;
+    protected int mTextBold;
+    protected boolean mTextAllCaps;
 
-    private int mBarColor;
-    private int mBarStrokeColor;
-    private float mBarStrokeWidth;
+    protected int mBarColor;
+    protected int mBarStrokeColor;
+    protected float mBarStrokeWidth;
 
-    private int mHeight;
+    protected int mHeight;
 
     /** anim */
-    private ValueAnimator mValueAnimator;
-    private OvershootInterpolator mInterpolator = new OvershootInterpolator(0.8f);
+    protected ValueAnimator mValueAnimator;
+    protected OvershootInterpolator mInterpolator = new OvershootInterpolator(0.8f);
 
-    private FragmentChangeManager mFragmentChangeManager;
-    private float[] mRadiusArr = new float[8];
+    protected FragmentChangeManager mFragmentChangeManager;
+    protected float[] mRadiusArr = new float[8];
 
     public SegmentTabLayout(Context context) {
         this(context, null, 0);
@@ -125,7 +126,7 @@ public class SegmentTabLayout extends FrameLayout implements ValueAnimator.Anima
         mValueAnimator.addUpdateListener(this);
     }
 
-    private void obtainAttributes(Context context, AttributeSet attrs) {
+    protected void obtainAttributes(Context context, AttributeSet attrs) {
         TypedArray ta = context.obtainStyledAttributes(attrs, R.styleable.SegmentTabLayout);
 
         mIndicatorColor = ta.getColor(R.styleable.SegmentTabLayout_tl_indicator_color, Color.parseColor("#222831"));
@@ -144,6 +145,7 @@ public class SegmentTabLayout extends FrameLayout implements ValueAnimator.Anima
         mDividerPadding = ta.getDimension(R.styleable.SegmentTabLayout_tl_divider_padding, 0);
 
         mTextsize = ta.getDimension(R.styleable.SegmentTabLayout_tl_textsize, sp2px(13f));
+        mTextSelectSize = ta.getDimension(R.styleable.SegmentTabLayout_tl_textSelectSize, mTextsize);
         mTextSelectColor = ta.getColor(R.styleable.SegmentTabLayout_tl_textSelectColor, Color.parseColor("#ffffff"));
         mTextUnselectColor = ta.getColor(R.styleable.SegmentTabLayout_tl_textUnselectColor, mIndicatorColor);
         mTextBold = ta.getInt(R.styleable.SegmentTabLayout_tl_textBold, TEXT_BOLD_NONE);
@@ -191,7 +193,7 @@ public class SegmentTabLayout extends FrameLayout implements ValueAnimator.Anima
     }
 
     /** 创建并添加tab */
-    private void addTab(final int position, View tabView) {
+    protected void addTab(final int position, View tabView) {
         TextView tv_tab_title = (TextView) tabView.findViewById(R.id.tv_tab_title);
         tv_tab_title.setText(mTitles[position]);
 
@@ -222,7 +224,7 @@ public class SegmentTabLayout extends FrameLayout implements ValueAnimator.Anima
         mTabsContainer.addView(tabView, position, lp_tab);
     }
 
-    private void updateTabStyles() {
+    protected void updateTabStyles() {
         for (int i = 0; i < mTabCount; i++) {
             View tabView = mTabsContainer.getChildAt(i);
             tabView.setPadding((int) mTabPadding, 0, (int) mTabPadding, 0);
@@ -242,19 +244,20 @@ public class SegmentTabLayout extends FrameLayout implements ValueAnimator.Anima
         }
     }
 
-    private void updateTabSelection(int position) {
+    protected void updateTabSelection(int position) {
         for (int i = 0; i < mTabCount; ++i) {
             View tabView = mTabsContainer.getChildAt(i);
             final boolean isSelect = i == position;
             TextView tab_title = (TextView) tabView.findViewById(R.id.tv_tab_title);
             tab_title.setTextColor(isSelect ? mTextSelectColor : mTextUnselectColor);
+            tab_title.setTextSize(TypedValue.COMPLEX_UNIT_PX, isSelect ? mTextSelectSize : mTextsize);
             if (mTextBold == TEXT_BOLD_WHEN_SELECT) {
                 tab_title.getPaint().setFakeBoldText(isSelect);
             }
         }
     }
 
-    private void calcOffset() {
+    protected void calcOffset() {
         final View currentTabView = mTabsContainer.getChildAt(this.mCurrentTab);
         mCurrentP.left = currentTabView.getLeft();
         mCurrentP.right = currentTabView.getRight();
@@ -281,7 +284,7 @@ public class SegmentTabLayout extends FrameLayout implements ValueAnimator.Anima
         }
     }
 
-    private void calcIndicatorRect() {
+    protected void calcIndicatorRect() {
         View currentTabView = mTabsContainer.getChildAt(this.mCurrentTab);
         float left = currentTabView.getLeft();
         float right = currentTabView.getRight();
@@ -342,7 +345,7 @@ public class SegmentTabLayout extends FrameLayout implements ValueAnimator.Anima
         invalidate();
     }
 
-    private boolean mIsFirstDraw = true;
+    protected boolean mIsFirstDraw = true;
 
     @Override
     protected void onDraw(Canvas canvas) {
@@ -606,8 +609,8 @@ public class SegmentTabLayout extends FrameLayout implements ValueAnimator.Anima
 
     //setter and getter
     // show MsgTipView
-    private Paint mTextPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
-    private SparseArray<Boolean> mInitSetMap = new SparseArray<>();
+    protected Paint mTextPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
+    protected SparseArray<Boolean> mInitSetMap = new SparseArray<>();
 
     /**
      * 显示未读消息
@@ -694,7 +697,7 @@ public class SegmentTabLayout extends FrameLayout implements ValueAnimator.Anima
         return tipView;
     }
 
-    private OnTabSelectListener mListener;
+    protected OnTabSelectListener mListener;
 
     public void setOnTabSelectListener(OnTabSelectListener listener) {
         this.mListener = listener;
@@ -726,8 +729,8 @@ public class SegmentTabLayout extends FrameLayout implements ValueAnimator.Anima
         public float right;
     }
 
-    private IndicatorPoint mCurrentP = new IndicatorPoint();
-    private IndicatorPoint mLastP = new IndicatorPoint();
+    protected IndicatorPoint mCurrentP = new IndicatorPoint();
+    protected IndicatorPoint mLastP = new IndicatorPoint();
 
     class PointEvaluator implements TypeEvaluator<IndicatorPoint> {
         @Override

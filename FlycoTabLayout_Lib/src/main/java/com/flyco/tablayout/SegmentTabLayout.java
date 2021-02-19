@@ -162,6 +162,10 @@ public class SegmentTabLayout extends FrameLayout implements ValueAnimator.Anima
         ta.recycle();
     }
 
+    public LinearLayout getTabsContainer() {
+        return mTabsContainer;
+    }
+
     public void setTabData(String[] titles) {
         if (titles == null || titles.length == 0) {
             throw new IllegalStateException("Titles can not be NULL or EMPTY !");

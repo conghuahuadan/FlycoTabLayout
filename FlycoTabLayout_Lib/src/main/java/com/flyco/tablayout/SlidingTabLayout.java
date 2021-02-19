@@ -239,6 +239,7 @@ public class SlidingTabLayout extends HorizontalScrollView implements ViewPager.
         }
 
         updateTabStyles();
+        updateTabSelection(mCurrentTab);
     }
 
     public void addNewTab(String title) {

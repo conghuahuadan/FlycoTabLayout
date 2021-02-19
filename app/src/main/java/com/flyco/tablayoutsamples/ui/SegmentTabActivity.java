@@ -100,7 +100,7 @@ public class SegmentTabActivity extends AppCompatActivity {
 
             }
         });
-        vp_3.setCurrentItem(1);
+//        vp_3.setCurrentItem(1);
     }
 
     private class MyPagerAdapter extends FragmentPagerAdapter {

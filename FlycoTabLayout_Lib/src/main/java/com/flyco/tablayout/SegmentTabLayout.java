@@ -190,6 +190,7 @@ public class SegmentTabLayout extends FrameLayout implements ValueAnimator.Anima
         }
 
         updateTabStyles();
+        updateTabSelection(mCurrentTab);
     }
 
     /** 创建并添加tab */

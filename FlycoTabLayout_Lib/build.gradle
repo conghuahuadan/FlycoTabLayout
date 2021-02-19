@@ -1,5 +1,6 @@
 apply plugin: 'com.android.library'
-version = "2.1.2"
+apply plugin: 'com.novoda.bintray-release'
+
 android {
     compileSdkVersion 28
     buildToolsVersion "28.0.0"
@@ -21,4 +22,13 @@ android {
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     compile 'com.android.support:support-v4:28.0.0'
+}
+
+publish {
+    userOrg = 'conghuahuadan'
+    groupId = 'com.conghuahuadan'
+    artifactId = 'flycotablayout'
+    publishVersion = '2.1.4'
+    desc = 'flycotablayout'
+    website = ''
 }

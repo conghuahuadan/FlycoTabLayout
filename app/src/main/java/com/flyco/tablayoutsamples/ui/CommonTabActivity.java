@@ -35,6 +35,7 @@ public class CommonTabActivity extends AppCompatActivity {
             R.mipmap.tab_home_select, R.mipmap.tab_speech_select,
             R.mipmap.tab_contact_select, R.mipmap.tab_more_select};
     private ArrayList<CustomTabEntity> mTabEntities = new ArrayList<>();
+    private ArrayList<CustomTabEntity> mTabEntitiesCopy = new ArrayList<>();
     private View mDecorView;
     private ViewPager mViewPager;
     private CommonTabLayout mTabLayout_1;
@@ -84,7 +85,15 @@ public class CommonTabActivity extends AppCompatActivity {
         mTabLayout_1.setTabData(mTabEntities);
         tl_2();
         mTabLayout_3.setTabData(mTabEntities, this, R.id.fl_change, mFragments2);
-        mTabLayout_4.setTabData(mTabEntities);
+
+
+        for (int i = 0; i < mTitles.length; i++) {
+            mTabEntitiesCopy.add(new TabEntity(mTitles[i], mIconSelectIds[i], mIconUnselectIds[i]));
+        }
+        for (int i = 0; i < mTitles.length; i++) {
+            mTabEntitiesCopy.add(new TabEntity(mTitles[i], mIconSelectIds[i], mIconUnselectIds[i]));
+        }
+        mTabLayout_4.setTabData(mTabEntitiesCopy);
         mTabLayout_5.setTabData(mTabEntities);
         mTabLayout_6.setTabData(mTabEntities);
         mTabLayout_7.setTabData(mTabEntities);
@@ -95,7 +104,7 @@ public class CommonTabActivity extends AppCompatActivity {
             public void onTabSelect(int position) {
                 mTabLayout_1.setCurrentTab(position);
                 mTabLayout_2.setCurrentTab(position);
-                mTabLayout_4.setCurrentTab(position);
+//                mTabLayout_4.setCurrentTab(position);
                 mTabLayout_5.setCurrentTab(position);
                 mTabLayout_6.setCurrentTab(position);
                 mTabLayout_7.setCurrentTab(position);
@@ -113,7 +122,7 @@ public class CommonTabActivity extends AppCompatActivity {
         //显示未读红点
         mTabLayout_1.showDot(2);
         mTabLayout_3.showDot(1);
-        mTabLayout_4.showDot(1);
+//        mTabLayout_4.showDot(1);
 
         //两位数
         mTabLayout_2.showMsg(0, 55);

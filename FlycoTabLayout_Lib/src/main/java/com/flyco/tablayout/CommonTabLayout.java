@@ -33,6 +33,7 @@ import com.flyco.tablayout.utils.UnreadMsgUtils;
 import com.flyco.tablayout.widget.MsgView;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /** 没有继承HorizontalScrollView不能滑动,对于ViewPager无依赖 */
 public class CommonTabLayout extends FrameLayout implements ValueAnimator.AnimatorUpdateListener {
@@ -195,7 +196,7 @@ public class CommonTabLayout extends FrameLayout implements ValueAnimator.Animat
         ta.recycle();
     }
 
-    public void setTabData(ArrayList<CustomTabEntity> tabEntitys) {
+    public void setTabData(List<? extends CustomTabEntity> tabEntitys) {
         if (tabEntitys == null || tabEntitys.size() == 0) {
             throw new IllegalStateException("TabEntitys can not be NULL or EMPTY !");
         }

@@ -20,6 +20,7 @@ import com.flyco.tablayoutsamples.entity.TabEntity;
 import com.flyco.tablayoutsamples.utils.ViewFindUtils;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 public class CommonTabActivity extends AppCompatActivity {
@@ -35,7 +36,7 @@ public class CommonTabActivity extends AppCompatActivity {
             R.mipmap.tab_home_select, R.mipmap.tab_speech_select,
             R.mipmap.tab_contact_select, R.mipmap.tab_more_select};
     private ArrayList<CustomTabEntity> mTabEntities = new ArrayList<>();
-    private ArrayList<CustomTabEntity> mTabEntitiesCopy = new ArrayList<>();
+    private List<TabEntity> mTabEntitiesCopy = new ArrayList<>();
     private View mDecorView;
     private ViewPager mViewPager;
     private CommonTabLayout mTabLayout_1;

@@ -2,11 +2,10 @@ apply plugin: 'com.android.application'
 
 android {
     compileSdkVersion 28
-    buildToolsVersion "28.0.0"
 
     defaultConfig {
         applicationId "com.flyco.tablayoutsamples"
-        minSdkVersion 14
+        minSdkVersion 15
         targetSdkVersion 28
         versionCode 1
         versionName "1.0"
@@ -20,9 +19,12 @@ android {
 }
 
 dependencies {
-    compile fileTree(dir: 'libs', include: ['*.jar'])
-    compile 'com.android.support:appcompat-v7:28.0.0'
-    compile project(':FlycoTabLayout_Lib')
-//    compile 'com.flyco.tablayout:FlycoTabLayout_Lib:2.1.2@aar'
-//    compile 'com.conghuahuadan:flycotablayout:2.1.3'
+    // 如果你使用kotlin,这里需要使用 kapt project
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+    // Fix bug for java.lang.ClassNotFoundException: android.view.View$OnUnhandledKeyEventListener
+    implementation 'com.github.DonaldDu:FixUnhandledEvent:1.0.1'
+    implementation 'androidx.appcompat:appcompat:1.0.0'
+    implementation project(':FlycoTabLayout_Lib')
+//    implementation 'com.flyco.tablayout:FlycoTabLayout_Lib:2.1.2@aar'
+//    implementation 'com.conghuahuadan:flycotablayout:2.1.3'
 }

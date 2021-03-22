@@ -193,7 +193,7 @@ public class CommonTabLayout extends FrameLayout implements ValueAnimator.Animat
         mTabWidth = ta.getDimension(R.styleable.CommonTabLayout_tl_tab_width, dp2px(-1));
         mTabPadding = ta.getDimension(R.styleable.CommonTabLayout_tl_tab_padding, mTabSpaceEqual || mTabWidth > 0 ? dp2px(0) : dp2px(10));
 
-        boolean defaultCheck = ta.getBoolean(R.styleable.CommonTabLayout_tl_defaultCheck, true);
+        boolean defaultCheck = ta.getBoolean(R.styleable.CommonTabLayout_tl_defaultSelect, true);
         mCurrentTab = defaultCheck ? 0 : -1;
 
         ta.recycle();

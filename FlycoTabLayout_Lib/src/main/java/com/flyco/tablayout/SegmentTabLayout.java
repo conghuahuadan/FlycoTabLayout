@@ -159,7 +159,7 @@ public class SegmentTabLayout extends FrameLayout implements ValueAnimator.Anima
         mBarStrokeColor = ta.getColor(R.styleable.SegmentTabLayout_tl_bar_stroke_color, mIndicatorColor);
         mBarStrokeWidth = ta.getDimension(R.styleable.SegmentTabLayout_tl_bar_stroke_width, dp2px(1));
 
-        boolean defaultCheck = ta.getBoolean(R.styleable.SegmentTabLayout_tl_defaultCheck, true);
+        boolean defaultCheck = ta.getBoolean(R.styleable.SegmentTabLayout_tl_defaultSelect, true);
         mCurrentTab = defaultCheck ? 0 : -1;
 
         ta.recycle();

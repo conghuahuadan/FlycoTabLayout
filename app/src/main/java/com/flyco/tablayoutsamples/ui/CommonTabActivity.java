@@ -8,6 +8,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 
 import com.flyco.tablayout.CommonTabLayout;
@@ -24,6 +25,9 @@ import java.util.List;
 import java.util.Random;
 
 public class CommonTabActivity extends AppCompatActivity {
+    
+    private static final String TAG = CommonTabActivity.class.getSimpleName();
+    
     private Context mContext = this;
     private ArrayList<Fragment> mFragments = new ArrayList<>();
     private ArrayList<Fragment> mFragments2 = new ArrayList<>();
@@ -104,11 +108,11 @@ public class CommonTabActivity extends AppCompatActivity {
                 mTabLayout_4.setCurrentTab(0);
             }
         });
-        mTabLayout_4.setCurrentTab(-2);
+//        mTabLayout_4.setCurrentTab(-2);
         mTabLayout_4.setOnTabSelectListener(new OnTabSelectListener() {
             @Override
             public void onTabSelect(int position) {
-
+                Log.i(TAG, "onTabSelect: " + position);
             }
 
             @Override

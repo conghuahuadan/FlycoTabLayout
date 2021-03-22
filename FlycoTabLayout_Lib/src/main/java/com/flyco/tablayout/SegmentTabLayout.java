@@ -159,6 +159,9 @@ public class SegmentTabLayout extends FrameLayout implements ValueAnimator.Anima
         mBarStrokeColor = ta.getColor(R.styleable.SegmentTabLayout_tl_bar_stroke_color, mIndicatorColor);
         mBarStrokeWidth = ta.getDimension(R.styleable.SegmentTabLayout_tl_bar_stroke_width, dp2px(1));
 
+        boolean defaultCheck = ta.getBoolean(R.styleable.SegmentTabLayout_tl_defaultCheck, true);
+        mCurrentTab = defaultCheck ? 0 : -1;
+
         ta.recycle();
     }
 
@@ -263,13 +266,16 @@ public class SegmentTabLayout extends FrameLayout implements ValueAnimator.Anima
     }
 
     protected void calcOffset() {
+        if (mCurrentTab < 0) return;
         final View currentTabView = mTabsContainer.getChildAt(this.mCurrentTab);
         mCurrentP.left = currentTabView.getLeft();
         mCurrentP.right = currentTabView.getRight();
 
         final View lastTabView = mTabsContainer.getChildAt(this.mLastTab);
-        mLastP.left = lastTabView.getLeft();
-        mLastP.right = lastTabView.getRight();
+        if (lastTabView != null) {
+            mLastP.left = lastTabView.getLeft();
+            mLastP.right = lastTabView.getRight();
+        }
 
 //        Log.d("AAA", "mLastP--->" + mLastP.left + "&" + mLastP.right);
 //        Log.d("AAA", "mCurrentP--->" + mCurrentP.left + "&" + mCurrentP.right);
@@ -290,6 +296,7 @@ public class SegmentTabLayout extends FrameLayout implements ValueAnimator.Anima
     }
 
     protected void calcIndicatorRect() {
+        if (mCurrentTab < 0) return;
         View currentTabView = mTabsContainer.getChildAt(this.mCurrentTab);
         float left = currentTabView.getLeft();
         float right = currentTabView.getRight();
@@ -297,6 +304,10 @@ public class SegmentTabLayout extends FrameLayout implements ValueAnimator.Anima
         mIndicatorRect.left = (int) left;
         mIndicatorRect.right = (int) right;
 
+        calcIndicatorRadius();
+    }
+
+    protected void calcIndicatorRadius() {
         if (!mIndicatorAnimEnable) {
             if (mCurrentTab == 0) {
                 /**The corners are ordered top-left, top-right, bottom-right, bottom-left*/
@@ -398,6 +409,7 @@ public class SegmentTabLayout extends FrameLayout implements ValueAnimator.Anima
         } else {
             calcIndicatorRect();
         }
+        calcIndicatorRadius();
 
         mIndicatorDrawable.setColor(mIndicatorColor);
         mIndicatorDrawable.setBounds(paddingLeft + (int) mIndicatorMarginLeft + mIndicatorRect.left,

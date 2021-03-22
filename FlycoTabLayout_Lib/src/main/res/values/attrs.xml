@@ -81,6 +81,9 @@
     <!-- 设置字体全大写 -->
     <attr name="tl_textAllCaps" format="boolean" />
 
+    <!-- 默认选中状态 -->
+    <attr name="tl_defaultCheck" format="boolean" />
+
     <declare-styleable name="SlidingTabLayout">
         <!-- indicator -->
         <attr name="tl_indicator_color" />
@@ -177,6 +180,7 @@
         <!-- 设置icon与文字间距 -->
         <attr name="tl_iconMargin" format="dimension" />
 
+        <attr name="tl_defaultCheck" />
     </declare-styleable>
 
     <declare-styleable name="SegmentTabLayout">
@@ -214,6 +218,7 @@
         <attr name="tl_bar_stroke_color" format="color" />
         <attr name="tl_bar_stroke_width" format="dimension" />
 
+        <attr name="tl_defaultCheck" />
     </declare-styleable>
 
     <declare-styleable name="MsgView">

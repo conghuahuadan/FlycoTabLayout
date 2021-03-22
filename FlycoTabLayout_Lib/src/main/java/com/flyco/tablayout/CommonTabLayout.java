@@ -15,13 +15,11 @@ import android.os.Parcelable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.util.SparseArray;
 import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.ViewTreeObserver;
 import android.view.animation.OvershootInterpolator;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
@@ -195,6 +193,9 @@ public class CommonTabLayout extends FrameLayout implements ValueAnimator.Animat
         mTabWidth = ta.getDimension(R.styleable.CommonTabLayout_tl_tab_width, dp2px(-1));
         mTabPadding = ta.getDimension(R.styleable.CommonTabLayout_tl_tab_padding, mTabSpaceEqual || mTabWidth > 0 ? dp2px(0) : dp2px(10));
 
+        boolean defaultCheck = ta.getBoolean(R.styleable.CommonTabLayout_tl_defaultCheck, true);
+        mCurrentTab = defaultCheck ? 0 : -1;
+
         ta.recycle();
     }
 
@@ -330,13 +331,17 @@ public class CommonTabLayout extends FrameLayout implements ValueAnimator.Animat
     }
 
     protected void calcOffset() {
+        if (mCurrentTab < 0) return;
+
         final View currentTabView = mTabsContainer.getChildAt(this.mCurrentTab);
         mCurrentP.left = currentTabView.getLeft();
         mCurrentP.right = currentTabView.getRight();
 
         final View lastTabView = mTabsContainer.getChildAt(this.mLastTab);
-        mLastP.left = lastTabView.getLeft();
-        mLastP.right = lastTabView.getRight();
+        if (lastTabView != null) {
+            mLastP.left = lastTabView.getLeft();
+            mLastP.right = lastTabView.getRight();
+        }
 
         if (mLastP.left == mCurrentP.left && mLastP.right == mCurrentP.right) {
             invalidate();
@@ -355,6 +360,8 @@ public class CommonTabLayout extends FrameLayout implements ValueAnimator.Animat
     }
 
     protected void calcIndicatorRect() {
+        if (mCurrentTab < 0) return;
+
         View currentTabView = mTabsContainer.getChildAt(this.mCurrentTab);
         float left = currentTabView.getLeft();
         float right = currentTabView.getRight();
@@ -412,7 +419,6 @@ public class CommonTabLayout extends FrameLayout implements ValueAnimator.Animat
             }
         }
 
-        Log.i(TAG, "onDraw: " + mTabsContainer.getWidth());
         // draw underline
         if (mUnderlineHeight > 0) {
             mRectPaint.setColor(mUnderlineColor);

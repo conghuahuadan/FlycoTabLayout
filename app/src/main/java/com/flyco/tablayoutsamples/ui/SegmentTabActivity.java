@@ -53,6 +53,7 @@ public class SegmentTabActivity extends AppCompatActivity {
         tl_3();
         tabLayout_4.setTabData(mTitles_2, this, R.id.fl_change, mFragments2);
         tabLayout_5.setTabData(mTitles_3);
+//        tabLayout_5.setCurrentTab(-1);
 
         //显示未读红点
         tabLayout_1.showDot(2);

@@ -45,8 +45,8 @@ public class SegmentTabActivity extends AppCompatActivity {
         SegmentTabLayout tabLayout_1 = ViewFindUtils.find(mDecorView, R.id.tl_1);
         SegmentTabLayout tabLayout_2 = ViewFindUtils.find(mDecorView, R.id.tl_2);
         mTabLayout_3 = ViewFindUtils.find(mDecorView, R.id.tl_3);
-        SegmentTabLayout tabLayout_4 = ViewFindUtils.find(mDecorView, R.id.tl_4);
-        SegmentTabLayout tabLayout_5 = ViewFindUtils.find(mDecorView, R.id.tl_5);
+        final SegmentTabLayout tabLayout_4 = ViewFindUtils.find(mDecorView, R.id.tl_4);
+        final SegmentTabLayout tabLayout_5 = ViewFindUtils.find(mDecorView, R.id.tl_5);
 
         tabLayout_1.setTabData(mTitles);
         tabLayout_2.setTabData(mTitles_2);
@@ -67,6 +67,13 @@ public class SegmentTabActivity extends AppCompatActivity {
         if (rtv_3_2 != null) {
             rtv_3_2.setBackgroundColor(Color.parseColor("#6D8FB0"));
         }
+
+        findViewById(R.id.btn_test).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                tabLayout_5.setCurrentTab(-1);
+            }
+        });
     }
 
     private void tl_3() {

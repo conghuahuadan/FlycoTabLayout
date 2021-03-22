@@ -81,7 +81,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:background="#F6CE59"
-                tl:tl_defaultSelect="false"
                 tl:tl_iconVisible="false"
                 tl:tl_indicator_width="10dp"
                 tl:tl_tab_space_equal="false"

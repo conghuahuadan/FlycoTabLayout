@@ -331,51 +331,60 @@ public class CommonTabLayout extends FrameLayout implements ValueAnimator.Animat
     }
 
     protected void calcOffset() {
-        if (mCurrentTab < 0) return;
+        if (mCurrentTab >= 0) {
+            final View currentTabView = mTabsContainer.getChildAt(this.mCurrentTab);
+            mCurrentP.left = currentTabView.getLeft();
+            mCurrentP.right = currentTabView.getRight();
 
-        final View currentTabView = mTabsContainer.getChildAt(this.mCurrentTab);
-        mCurrentP.left = currentTabView.getLeft();
-        mCurrentP.right = currentTabView.getRight();
+            final View lastTabView = mTabsContainer.getChildAt(this.mLastTab);
+            if (lastTabView != null) {
+                mLastP.left = lastTabView.getLeft();
+                mLastP.right = lastTabView.getRight();
+            }
 
-        final View lastTabView = mTabsContainer.getChildAt(this.mLastTab);
-        if (lastTabView != null) {
-            mLastP.left = lastTabView.getLeft();
-            mLastP.right = lastTabView.getRight();
-        }
+            if (mLastP.left == mCurrentP.left && mLastP.right == mCurrentP.right) {
+                invalidate();
+            } else {
+                mValueAnimator.setObjectValues(mLastP, mCurrentP);
+                if (mIndicatorBounceEnable) {
+                    mValueAnimator.setInterpolator(mInterpolator);
+                }
 
-        if (mLastP.left == mCurrentP.left && mLastP.right == mCurrentP.right) {
-            invalidate();
+                if (mIndicatorAnimDuration < 0) {
+                    mIndicatorAnimDuration = mIndicatorBounceEnable ? 500 : 250;
+                }
+                mValueAnimator.setDuration(mIndicatorAnimDuration);
+                mValueAnimator.start();
+            }
         } else {
-            mValueAnimator.setObjectValues(mLastP, mCurrentP);
-            if (mIndicatorBounceEnable) {
-                mValueAnimator.setInterpolator(mInterpolator);
-            }
-
-            if (mIndicatorAnimDuration < 0) {
-                mIndicatorAnimDuration = mIndicatorBounceEnable ? 500 : 250;
-            }
-            mValueAnimator.setDuration(mIndicatorAnimDuration);
-            mValueAnimator.start();
+            mCurrentP.left = 0;
+            mCurrentP.right = 0;
+            mLastP.left = 0;
+            mLastP.right = 0;
+            invalidate();
         }
     }
 
     protected void calcIndicatorRect() {
-        if (mCurrentTab < 0) return;
+        if (mCurrentTab >= 0) {
+            View currentTabView = mTabsContainer.getChildAt(this.mCurrentTab);
+            float left = currentTabView.getLeft();
+            float right = currentTabView.getRight();
 
-        View currentTabView = mTabsContainer.getChildAt(this.mCurrentTab);
-        float left = currentTabView.getLeft();
-        float right = currentTabView.getRight();
+            mIndicatorRect.left = (int) left;
+            mIndicatorRect.right = (int) right;
 
-        mIndicatorRect.left = (int) left;
-        mIndicatorRect.right = (int) right;
+            if (mIndicatorWidth < 0) {   //indicatorWidth小于0时,原jpardogo's PagerSlidingTabStrip
 
-        if (mIndicatorWidth < 0) {   //indicatorWidth小于0时,原jpardogo's PagerSlidingTabStrip
+            } else {//indicatorWidth大于0时,圆角矩形以及三角形
+                float indicatorLeft = currentTabView.getLeft() + (currentTabView.getWidth() - mIndicatorWidth) / 2;
 
-        } else {//indicatorWidth大于0时,圆角矩形以及三角形
-            float indicatorLeft = currentTabView.getLeft() + (currentTabView.getWidth() - mIndicatorWidth) / 2;
-
-            mIndicatorRect.left = (int) indicatorLeft;
-            mIndicatorRect.right = (int) (mIndicatorRect.left + mIndicatorWidth);
+                mIndicatorRect.left = (int) indicatorLeft;
+                mIndicatorRect.right = (int) (mIndicatorRect.left + mIndicatorWidth);
+            }
+        } else {
+            mIndicatorRect.left = (int) 0;
+            mIndicatorRect.right = (int) 0;
         }
     }
 
@@ -434,6 +443,11 @@ public class CommonTabLayout extends FrameLayout implements ValueAnimator.Animat
             if (mIsFirstDraw) {
                 mIsFirstDraw = false;
                 calcIndicatorRect();
+            } else {
+                if (mCurrentTab < 0) {
+                    mIndicatorRect.left = (int) 0;
+                    mIndicatorRect.right = (int) 0;
+                }
             }
         } else {
             calcIndicatorRect();

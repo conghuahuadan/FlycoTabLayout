@@ -23,7 +23,7 @@ dependencies {
     // Fix bug for java.lang.ClassNotFoundException: android.view.View$OnUnhandledKeyEventListener
     implementation 'com.github.DonaldDu:FixUnhandledEvent:1.0.1'
     implementation 'com.android.support:appcompat-v7:28.0.0'
-//    implementation project(':FlycoTabLayout_Lib')
+    implementation project(':FlycoTabLayout_Lib')
 //    implementation 'com.flyco.tablayout:FlycoTabLayout_Lib:2.1.2@aar'
-    implementation 'com.conghuahuadan:flycotablayout:2.1.9'
+//    implementation 'com.conghuahuadan:flycotablayout:2.1.9'
 }

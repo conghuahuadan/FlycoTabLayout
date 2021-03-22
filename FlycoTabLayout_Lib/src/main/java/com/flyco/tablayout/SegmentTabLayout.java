@@ -266,45 +266,53 @@ public class SegmentTabLayout extends FrameLayout implements ValueAnimator.Anima
     }
 
     protected void calcOffset() {
-        if (mCurrentTab < 0) return;
-        final View currentTabView = mTabsContainer.getChildAt(this.mCurrentTab);
-        mCurrentP.left = currentTabView.getLeft();
-        mCurrentP.right = currentTabView.getRight();
 
-        final View lastTabView = mTabsContainer.getChildAt(this.mLastTab);
-        if (lastTabView != null) {
-            mLastP.left = lastTabView.getLeft();
-            mLastP.right = lastTabView.getRight();
-        }
+        if (mCurrentTab >= 0) {
+            final View currentTabView = mTabsContainer.getChildAt(this.mCurrentTab);
+            mCurrentP.left = currentTabView.getLeft();
+            mCurrentP.right = currentTabView.getRight();
 
-//        Log.d("AAA", "mLastP--->" + mLastP.left + "&" + mLastP.right);
-//        Log.d("AAA", "mCurrentP--->" + mCurrentP.left + "&" + mCurrentP.right);
-        if (mLastP.left == mCurrentP.left && mLastP.right == mCurrentP.right) {
-            invalidate();
+            final View lastTabView = mTabsContainer.getChildAt(this.mLastTab);
+            if (lastTabView != null) {
+                mLastP.left = lastTabView.getLeft();
+                mLastP.right = lastTabView.getRight();
+            }
+
+            if (mLastP.left == mCurrentP.left && mLastP.right == mCurrentP.right) {
+                invalidate();
+            } else {
+                mValueAnimator.setObjectValues(mLastP, mCurrentP);
+                if (mIndicatorBounceEnable) {
+                    mValueAnimator.setInterpolator(mInterpolator);
+                }
+
+                if (mIndicatorAnimDuration < 0) {
+                    mIndicatorAnimDuration = mIndicatorBounceEnable ? 500 : 250;
+                }
+                mValueAnimator.setDuration(mIndicatorAnimDuration);
+                mValueAnimator.start();
+            }
         } else {
-            mValueAnimator.setObjectValues(mLastP, mCurrentP);
-            if (mIndicatorBounceEnable) {
-                mValueAnimator.setInterpolator(mInterpolator);
-            }
-
-            if (mIndicatorAnimDuration < 0) {
-                mIndicatorAnimDuration = mIndicatorBounceEnable ? 500 : 250;
-            }
-            mValueAnimator.setDuration(mIndicatorAnimDuration);
-            mValueAnimator.start();
+            mCurrentP.left = 0;
+            mCurrentP.right = 0;
+            mLastP.left = 0;
+            mLastP.right = 0;
+            invalidate();
         }
     }
 
     protected void calcIndicatorRect() {
-        if (mCurrentTab < 0) return;
-        View currentTabView = mTabsContainer.getChildAt(this.mCurrentTab);
-        float left = currentTabView.getLeft();
-        float right = currentTabView.getRight();
+        if (mCurrentTab >= 0) {
+            View currentTabView = mTabsContainer.getChildAt(this.mCurrentTab);
+            float left = currentTabView.getLeft();
+            float right = currentTabView.getRight();
 
-        mIndicatorRect.left = (int) left;
-        mIndicatorRect.right = (int) right;
-
-        calcIndicatorRadius();
+            mIndicatorRect.left = (int) left;
+            mIndicatorRect.right = (int) right;
+        } else {
+            mIndicatorRect.left = 0;
+            mIndicatorRect.right = 0;
+        }
     }
 
     protected void calcIndicatorRadius() {
@@ -405,6 +413,11 @@ public class SegmentTabLayout extends FrameLayout implements ValueAnimator.Anima
             if (mIsFirstDraw) {
                 mIsFirstDraw = false;
                 calcIndicatorRect();
+            } else {
+                if (mCurrentTab < 0) {
+                    mIndicatorRect.left = 0;
+                    mIndicatorRect.right = 0;
+                }
             }
         } else {
             calcIndicatorRect();

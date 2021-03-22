@@ -100,12 +100,11 @@ public class CommonTabActivity extends AppCompatActivity {
         }
 
         mTabLayout_4.setTabData(new ArrayList<>(mTabEntitiesCopy));
+        mTabLayout_4.setCurrentTab(-1);
         findViewById(R.id.btn_test).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mTabEntitiesCopy.remove(mTabEntitiesCopy.size() - 1 - 1);
-                mTabLayout_4.setTabData(new ArrayList<>(mTabEntitiesCopy));
-                mTabLayout_4.setCurrentTab(0);
+                mTabLayout_4.setCurrentTab(-1);
             }
         });
 //        mTabLayout_4.setCurrentTab(-2);

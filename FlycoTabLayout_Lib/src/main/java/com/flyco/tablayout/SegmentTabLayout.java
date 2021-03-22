@@ -170,7 +170,7 @@ public class SegmentTabLayout extends FrameLayout implements ValueAnimator.Anima
         if (titles == null || titles.length == 0) {
             throw new IllegalStateException("Titles can not be NULL or EMPTY !");
         }
-
+        this.mIsFirstDraw = true;
         this.mTitles = titles;
 
         notifyDataSetChanged();
@@ -411,6 +411,7 @@ public class SegmentTabLayout extends FrameLayout implements ValueAnimator.Anima
     //setter and getter
     public void setCurrentTab(int currentTab) {
         mLastTab = this.mCurrentTab;
+        mLastTab = Math.min(mLastTab, mTitles.length - 1);
         this.mCurrentTab = currentTab;
         updateTabSelection(currentTab);
         if (mFragmentChangeManager != null) {

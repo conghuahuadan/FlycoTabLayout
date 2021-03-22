@@ -15,11 +15,13 @@ import android.os.Parcelable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.util.SparseArray;
 import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
 import android.view.animation.OvershootInterpolator;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
@@ -201,6 +203,8 @@ public class CommonTabLayout extends FrameLayout implements ValueAnimator.Animat
             throw new IllegalStateException("TabEntitys can not be NULL or EMPTY !");
         }
 
+        this.mIsFirstDraw = true;
+
         this.mTabEntitys.clear();
         this.mTabEntitys.addAll(tabEntitys);
 
@@ -212,7 +216,7 @@ public class CommonTabLayout extends FrameLayout implements ValueAnimator.Animat
     }
 
     /** 关联数据支持同时切换fragments */
-    public void setTabData(ArrayList<CustomTabEntity> tabEntitys, FragmentActivity fa, int containerViewId, ArrayList<Fragment> fragments) {
+    public void setTabData(List<? extends CustomTabEntity> tabEntitys, FragmentActivity fa, int containerViewId, ArrayList<Fragment> fragments) {
         mFragmentChangeManager = new FragmentChangeManager(fa.getSupportFragmentManager(), containerViewId, fragments);
         setTabData(tabEntitys);
     }
@@ -238,6 +242,7 @@ public class CommonTabLayout extends FrameLayout implements ValueAnimator.Animat
         }
 
         updateTabStyles();
+        updateTabSelection(mCurrentTab);
     }
 
     /** 创建并添加tab */
@@ -283,12 +288,6 @@ public class CommonTabLayout extends FrameLayout implements ValueAnimator.Animat
             tv_tab_title.setTextSize(TypedValue.COMPLEX_UNIT_PX, i == mCurrentTab ? mTextSelectSize : mTextsize);
             if (mTextAllCaps) {
                 tv_tab_title.setText(tv_tab_title.getText().toString().toUpperCase());
-            }
-
-            if (mTextBold == TEXT_BOLD_BOTH) {
-                tv_tab_title.getPaint().setFakeBoldText(true);
-            } else if (mTextBold == TEXT_BOLD_NONE) {
-                tv_tab_title.getPaint().setFakeBoldText(false);
             }
 
             ImageView iv_tab_icon = (ImageView) tabView.findViewById(R.id.iv_tab_icon);
@@ -339,8 +338,6 @@ public class CommonTabLayout extends FrameLayout implements ValueAnimator.Animat
         mLastP.left = lastTabView.getLeft();
         mLastP.right = lastTabView.getRight();
 
-//        Log.d("AAA", "mLastP--->" + mLastP.left + "&" + mLastP.right);
-//        Log.d("AAA", "mCurrentP--->" + mCurrentP.left + "&" + mCurrentP.right);
         if (mLastP.left == mCurrentP.left && mLastP.right == mCurrentP.right) {
             invalidate();
         } else {
@@ -415,6 +412,7 @@ public class CommonTabLayout extends FrameLayout implements ValueAnimator.Animat
             }
         }
 
+        Log.i(TAG, "onDraw: " + mTabsContainer.getWidth());
         // draw underline
         if (mUnderlineHeight > 0) {
             mRectPaint.setColor(mUnderlineColor);
@@ -493,9 +491,10 @@ public class CommonTabLayout extends FrameLayout implements ValueAnimator.Animat
     //setter and getter
     public void setCurrentTab(int currentTab) {
         mLastTab = this.mCurrentTab;
+        mLastTab = Math.min(mLastTab, mTabEntitys.size() - 1);
         this.mCurrentTab = currentTab;
-        updateTabSelection(currentTab);
         updateTabStyles();
+        updateTabSelection(currentTab);
         if (mFragmentChangeManager != null) {
             mFragmentChangeManager.setFragments(currentTab);
         }

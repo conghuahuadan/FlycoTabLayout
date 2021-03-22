@@ -39,7 +39,7 @@ public class SlidingTabActivity extends AppCompatActivity implements OnTabSelect
 
 
         View decorView = getWindow().getDecorView();
-        ViewPager vp = ViewFindUtils.find(decorView, R.id.vp);
+     final    ViewPager vp = ViewFindUtils.find(decorView, R.id.vp);
         mAdapter = new MyPagerAdapter(getSupportFragmentManager());
         vp.setAdapter(mAdapter);
 
@@ -107,6 +107,18 @@ public class SlidingTabActivity extends AppCompatActivity implements OnTabSelect
 //                tabLayout_7.addNewTab("后端");
 //            }
 //        });
+
+        findViewById(R.id.btn_test).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mFragments.clear();
+                for (int i = 0; i < mTitles.length - 1; i++) {
+                    mFragments.add(SimpleCardFragment.getInstance(mTitles[i]));
+                }
+                mAdapter = new MyPagerAdapter(getSupportFragmentManager());
+                vp.setAdapter(mAdapter);
+            }
+        });
     }
 
     @Override

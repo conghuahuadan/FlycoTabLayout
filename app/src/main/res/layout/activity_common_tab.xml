@@ -68,9 +68,10 @@
             tl:tl_underline_height="1dp" />
 
         <HorizontalScrollView
+            android:id="@+id/scroll_view_4"
             android:layout_width="match_parent"
-            android:fillViewport="true"
-            android:layout_height="48dp">
+            android:layout_height="48dp"
+            android:fillViewport="true">
 
             <com.flyco.tablayout.CommonTabLayout
                 android:id="@+id/tl_4"
@@ -78,9 +79,10 @@
                 android:layout_height="match_parent"
                 android:background="#F6CE59"
                 tl:tl_iconVisible="false"
-                tl:tl_tab_width="80dp"
-                tl:tl_tab_space_equal="false"
                 tl:tl_indicator_width="10dp"
+
+                tl:tl_tab_space_equal="false"
+                tl:tl_tab_width="80dp"
                 tl:tl_textBold="SELECT"
                 tl:tl_textsize="20sp" />
         </HorizontalScrollView>
@@ -133,5 +135,11 @@
             tl:tl_indicator_margin_right="5dp"
             tl:tl_indicator_style="BLOCK"
             tl:tl_textsize="14sp" />
+
+        <Button
+            android:id="@+id/btn_test"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="test" />
     </LinearLayout>
 </ScrollView>

@@ -25,7 +25,7 @@ publish {
     userOrg = 'conghuahuadan'
     groupId = 'com.conghuahuadan'
     artifactId = 'flycotablayout'
-    publishVersion = '2.1.6'
+    publishVersion = '2.1.7'
     desc = 'flycotablayout'
     website = ''
 }

@@ -94,7 +94,29 @@ public class CommonTabActivity extends AppCompatActivity {
         for (int i = 0; i < mTitles.length; i++) {
             mTabEntitiesCopy.add(new TabEntity(mTitles[i], mIconSelectIds[i], mIconUnselectIds[i]));
         }
-        mTabLayout_4.setTabData(mTabEntitiesCopy);
+
+        mTabLayout_4.setTabData(new ArrayList<>(mTabEntitiesCopy));
+        findViewById(R.id.btn_test).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mTabEntitiesCopy.remove(mTabEntitiesCopy.size() - 1 - 1);
+                mTabLayout_4.setTabData(new ArrayList<>(mTabEntitiesCopy));
+                mTabLayout_4.setCurrentTab(0);
+            }
+        });
+        mTabLayout_4.setCurrentTab(-2);
+        mTabLayout_4.setOnTabSelectListener(new OnTabSelectListener() {
+            @Override
+            public void onTabSelect(int position) {
+
+            }
+
+            @Override
+            public void onTabReselect(int position) {
+
+            }
+        });
+
         mTabLayout_5.setTabData(mTabEntities);
         mTabLayout_6.setTabData(mTabEntities);
         mTabLayout_7.setTabData(mTabEntities);
@@ -103,13 +125,13 @@ public class CommonTabActivity extends AppCompatActivity {
         mTabLayout_3.setOnTabSelectListener(new OnTabSelectListener() {
             @Override
             public void onTabSelect(int position) {
-                mTabLayout_1.setCurrentTab(position);
-                mTabLayout_2.setCurrentTab(position);
+//                mTabLayout_1.setCurrentTab(position);
+//                mTabLayout_2.setCurrentTab(position);
 //                mTabLayout_4.setCurrentTab(position);
-                mTabLayout_5.setCurrentTab(position);
-                mTabLayout_6.setCurrentTab(position);
-                mTabLayout_7.setCurrentTab(position);
-                mTabLayout_8.setCurrentTab(position);
+//                mTabLayout_5.setCurrentTab(position);
+//                mTabLayout_6.setCurrentTab(position);
+//                mTabLayout_7.setCurrentTab(position);
+//                mTabLayout_8.setCurrentTab(position);
             }
 
             @Override
@@ -117,8 +139,8 @@ public class CommonTabActivity extends AppCompatActivity {
 
             }
         });
-        mTabLayout_8.setCurrentTab(2);
-        mTabLayout_3.setCurrentTab(1);
+//        mTabLayout_8.setCurrentTab(2);
+//        mTabLayout_3.setCurrentTab(1);
 
         //显示未读红点
         mTabLayout_1.showDot(2);
@@ -176,7 +198,7 @@ public class CommonTabActivity extends AppCompatActivity {
 
             @Override
             public void onPageSelected(int position) {
-                mTabLayout_2.setCurrentTab(position);
+//                mTabLayout_2.setCurrentTab(position);
             }
 
             @Override
